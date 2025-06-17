@@ -55,28 +55,20 @@ preprocessor <source_directory> <output_directory> <feature1,feature2,...>
 ### Programmatic Usage
 
 ```javascript
-const { applyPreprocessor } = require('preprocessor-js');
+const { applyPreprocessor } = require('../src/preprocessor');
 
-const sourceCode = `
-// #if FEATURE_AUTH
-function authenticateUser(credentials) {
-    // Authentication logic
-    return validateCredentials(credentials);
-}
+const input = `
+// #if FEATURE_A
+console.log("Feature A");
 // #else
-function authenticateUser(credentials) {
-    // Mock authentication for development
-    return true;
-}
-// #endif
-
-// #if DEBUG_MODE
-console.log('Debug mode enabled');
+console.log("Fallback");
 // #endif
 `;
 
-const processedCode = applyPreprocessor(sourceCode, ['FEATURE_AUTH', 'DEBUG_MODE']);
-console.log(processedCode);
+const output = applyPreprocessor(input, ["FEATURE_A"]);
+console.log(output);
+
+// console.log("Feature A");
 ```
 
 ## Directive Syntax
