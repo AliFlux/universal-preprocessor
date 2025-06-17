@@ -1,0 +1,23 @@
+{
+    "author": "Visor Dynamics",
+    "name": "preprocessor-js",
+    "version": "1.0.0",
+    "description": "Simple JavaScript feature flag preprocessor with #if/#else/#endif support",
+    "main": "src/preprocessor.js",
+    "scripts": {
+        "test": "npx jest ./tests/preprocessor.test.js"
+    },
+    "keywords": [
+        "preprocessor",
+        "directives",
+        "feature-flags",
+        "conditional-compilation",
+        "javascript",
+        "build-tools"
+    ],
+    "bin": {
+        "preprocessor": "./bin/index.js"
+    },
+    "license": "MIT",
+    "devDependencies": {}
+}
