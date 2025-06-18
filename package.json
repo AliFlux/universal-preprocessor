@@ -6,7 +6,7 @@
     "main": "src/preprocessor.js",
     "type": "module",
     "scripts": {
-        "test": "npx jest ./tests/preprocessor.test.js"
+        "test": "cross-env NODE_OPTIONS=--experimental-vm-modules npx jest ./tests/preprocessor.test.js"
     },
     "keywords": [
         "preprocessor",
@@ -20,8 +20,8 @@
         "preprocessor": "./bin/index.js"
     },
     "license": "MIT",
-    "devDependencies": {
-        "@babel/preset-env": "^7.27.2",
-        "jest": "^30.0.0"
+    "devDependencies": {},
+    "dependencies": {
+        "cross-env": "^7.0.3"
     }
 }

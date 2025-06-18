@@ -1,4 +1,4 @@
-const { universalPreprocess } = require("../src/preprocessor.js");
+import { universalPreprocess } from "../src/preprocessor.js";
 
 describe("Preprocessor Directive Handling", () => {
 
