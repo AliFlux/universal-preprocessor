@@ -1,4 +1,4 @@
-const { applyPreprocessor } = require('../src/preprocessor');
+import { universalPreprocess } from "../src/preprocessor.js";
 
 const input = `
 // #if FEATURE_A
@@ -8,7 +8,7 @@ console.log("Fallback");
 // #endif
 `;
 
-const output = applyPreprocessor(input, ["FEATURE_A"]);
+const output = universalPreprocess(input, ["FEATURE_A"]);
 console.log(output);
 
 // console.log("Feature A");

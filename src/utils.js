@@ -5,6 +5,4 @@ const isDirective = (line, keyword) =>
     line.startsWith(`<!-- #${keyword}`);
 
 
-module.exports = {
-    isDirective,
-};
+export { isDirective };

@@ -1,6 +1,6 @@
-const { isDirective } = require('../src/utils');
+import { isDirective } from "./utils.js"
 
-function applyPreprocessor(content, enabledFeatures = []) {
+function universalPreprocess(content, enabledFeatures = []) {
     const lines = content.split("\n");
     const result = [];
 
@@ -64,6 +64,4 @@ function applyPreprocessor(content, enabledFeatures = []) {
 }
 
 
-module.exports = {
-    applyPreprocessor,
-};
+export {universalPreprocess};

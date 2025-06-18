@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-const fs = require("fs");
-const path = require("path");
-const { applyPreprocessor } = require("../src/preprocessor");
+import fs from "fs";
+import path from "path";
+import { universalPreprocess } from "../src/preprocessor.js";
 
 const args = process.argv.slice(2);
 
@@ -33,10 +33,21 @@ const [srcArg, distArg, featureArg] = args;
 const enabled = featureArg.split(",").map(f => f.trim()).filter(Boolean);
 
 const codeExtensions = [".js", ".ts", ".jsx", ".py", ".txt", ".html", ".css"];
-const SKIP_LIST = ["node_modules", "dist", ".git", ".DS_Store"];
-
 const fullSrc = path.resolve(process.cwd(), srcArg);
 const fullDist = path.resolve(process.cwd(), distArg);
+
+// Load ignore list from .preprocessorignore if present
+let SKIP_LIST = [];
+const ignorePath = path.join(fullSrc, ".preprocessorignore");
+
+if (fs.existsSync(ignorePath)) {
+    const ignoreContent = fs.readFileSync(ignorePath, "utf-8");
+    SKIP_LIST = ignoreContent
+        .split("\n")
+        .map(l => l.trim())
+        .filter(Boolean)
+        .filter(l => !l.startsWith("#"))
+}
 
 if (!fs.existsSync(fullSrc)) {
     console.error(`Source directory "${fullSrc}" not found.
@@ -55,7 +66,7 @@ function copyRecursive(src, dest, enabled) {
     const stats = fs.statSync(src);
     const name = path.basename(src);
 
-    if (SKIP_LIST.includes(name)) return;
+    if (name === ".preprocessorignore" || SKIP_LIST.includes(name)) return;
 
     if (stats.isDirectory()) {
         fs.mkdirSync(dest, { recursive: true });
@@ -70,7 +81,7 @@ function copyRecursive(src, dest, enabled) {
         const ext = path.extname(src);
         const shouldProcess = codeExtensions.includes(ext);
         const content = fs.readFileSync(src, "utf-8");
-        const filtered = shouldProcess ? applyPreprocessor(content, enabled) : content;
+        const filtered = shouldProcess ? universalPreprocess(content, enabled) : content;
 
         fs.mkdirSync(path.dirname(dest), { recursive: true });
         fs.writeFileSync(dest, filtered);

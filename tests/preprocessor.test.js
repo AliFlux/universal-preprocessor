@@ -1,4 +1,4 @@
-const { applyPreprocessor } = require("../src/preprocessor.js");
+const { universalPreprocess } = require("../src/preprocessor.js");
 
 describe("Preprocessor Directive Handling", () => {
 
@@ -7,7 +7,7 @@ describe("Preprocessor Directive Handling", () => {
 // #if
 console.log("A");
 `;
-        expect(() => applyPreprocessor(input, []))
+        expect(() => universalPreprocess(input, []))
             .toThrow("Missing feature in #if directive");
     });
 
@@ -16,7 +16,7 @@ console.log("A");
 // #if FEATURE_A
 console.log("A");
 `;
-        expect(() => applyPreprocessor(input, ["FEATURE_A"]))
+        expect(() => universalPreprocess(input, ["FEATURE_A"]))
             .toThrow("Missing #endif for ");
     });
 
@@ -26,7 +26,7 @@ console.log("A");
 console.log("A");
 // #endif
 `;
-        const out = applyPreprocessor(input, []);
+        const out = universalPreprocess(input, []);
         expect(out).not.toContain('console.log("A");');
     });
 
@@ -40,7 +40,7 @@ console.log("A");
 // #endif
 console.log("end");
 `;
-        const out = applyPreprocessor(input, ["FEATURE_A", "FEATURE_B"]);
+        const out = universalPreprocess(input, ["FEATURE_A", "FEATURE_B"]);
         expect(out).toContain('console.log("A");');
         expect(out).toContain('console.log("B");');
         expect(out).toContain('console.log("end");');
@@ -56,7 +56,7 @@ console.log("A");
 // #endif
 console.log("end");
 `;
-        const out = applyPreprocessor(input, []);
+        const out = universalPreprocess(input, []);
         expect(out).not.toContain('console.log("A");');
         expect(out).not.toContain('console.log("B");');
         expect(out).toContain('console.log("end");');
@@ -69,7 +69,7 @@ console.log("X");
 // #endif
 // #endif
 `;
-        expect(() => applyPreprocessor(input, ["FEATURE_X"]))
+        expect(() => universalPreprocess(input, ["FEATURE_X"]))
             .toThrow("Unexpected #endif without matching #if");
     });
 
@@ -79,7 +79,7 @@ console.log("X");
 console.log("Unexpected else");
 // #endif
 `;
-        expect(() => applyPreprocessor(input, []))
+        expect(() => universalPreprocess(input, []))
             .toThrow("Unexpected #else without matching #if");
     });
 
@@ -93,7 +93,7 @@ console.log("No1");
 console.log("No2");
 // #endif
 `;
-        expect(() => applyPreprocessor(input, []))
+        expect(() => universalPreprocess(input, []))
             .toThrow("Duplicate #else in #if");
     });
 
@@ -106,7 +106,7 @@ console.log("A");
   // #endif
 // #endif
 `;
-        const out = applyPreprocessor(input, ["FEATURE_A", "FEATURE_B"]);
+        const out = universalPreprocess(input, ["FEATURE_A", "FEATURE_B"]);
         expect(out).toContain('console.log("A");');
         expect(out).toContain('console.log("B");');
     });
@@ -119,7 +119,7 @@ console.log("Z");
 console.log("No Z");
 // #endif
 `;
-        const out = applyPreprocessor(input, []);
+        const out = universalPreprocess(input, []);
         expect(out).not.toContain('console.log("Z");');
         expect(out).toContain('console.log("No Z");');
     });
@@ -132,7 +132,7 @@ console.log("Z");
 console.log("No Z");
 // #endif
 `;
-        const out = applyPreprocessor(input, ["FEATURE_Z"]);
+        const out = universalPreprocess(input, ["FEATURE_Z"]);
         expect(out).toContain('console.log("Z");');
         expect(out).not.toContain('console.log("No Z");');
     });
