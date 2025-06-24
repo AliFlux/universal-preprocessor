@@ -18,7 +18,7 @@ Example:
 }
 
 // Validate required args
-if (args.length < 3) {
+if (args.length < 2) {
     console.error("Invalid usage.\n");
     console.log(`Expected:
   preprocessor <sourceDir> <outDir> <FEATURE1,FEATURE2,...>
@@ -30,7 +30,9 @@ Example:
 }
 
 const [srcArg, distArg, featureArg] = args;
-const enabled = featureArg.split(",").map(f => f.trim()).filter(Boolean);
+const enabled = featureArg
+    ? featureArg.split(",").map(f => f.trim()).filter(Boolean)
+    : [];
 
 const codeExtensions = [".js", ".ts", ".jsx", ".py", ".txt", ".html", ".css"];
 const fullSrc = path.resolve(process.cwd(), srcArg);
@@ -80,10 +82,15 @@ function copyRecursive(src, dest, enabled) {
     } else {
         const ext = path.extname(src);
         const shouldProcess = codeExtensions.includes(ext);
-        const content = fs.readFileSync(src, "utf-8");
-        const filtered = shouldProcess ? universalPreprocess(content, enabled) : content;
-
+        
         fs.mkdirSync(path.dirname(dest), { recursive: true });
-        fs.writeFileSync(dest, filtered);
+        
+        if (shouldProcess) {
+            const content = fs.readFileSync(src, "utf-8");
+            const filtered = enabled ? universalPreprocess(content, enabled) : content;
+            fs.writeFileSync(dest, filtered, "utf-8");
+        } else {
+            fs.copyFileSync(src, dest);
+        }
     }
 }
