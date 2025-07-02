@@ -412,3 +412,5 @@ See [CHANGELOG.md](CHANGELOG.md) for a list of changes and version history.
 ---
 
 **Built with ❤️ by [Visor Dynamics](https://visordynamics.uk/)**
+
+Major work done by [MaazAhmadDeveloper](https://github.com/MaazAhmadDeveloper) supported by [AliFlux](https://github.com/AliFlux)

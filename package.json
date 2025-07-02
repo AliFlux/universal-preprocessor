@@ -1,6 +1,6 @@
 {
     "author": "Visor Dynamics",
-    "name": "universal-preprocessor",
+    "name": "@aliflux/universal-preprocessor",
     "version": "1.0.0",
     "description": "Simple JavaScript feature flag preprocessor with #if/#else/#endif support",
     "main": "src/preprocessor.js",
