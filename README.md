@@ -6,7 +6,7 @@
 A lightweight, zero-dependency universal preprocessor that enables conditional compilation through feature flags. Built for developers who need to maintain multiple builds or feature variants of their codebase without complex build tooling.
 
 ## Important Notice
-> **&#9888; Testing Disclaimer**: While this universal-preprocessor supports multiple file formats (JavaScript, TypeScript, Python, HTML, CSS, and plain text), it has been thoroughly tested only with JavaScript files. Other file types are supported but may require additional testing in your specific use case.
+> **&#9888; Testing Disclaimer**: While this universal-preprocessor supports multiple file formats (JavaScript, TypeScript, Python, HTML, CSS, and plain text), it has been thoroughly tested only with JavaScript and JSX files. Other file types are supported but may require additional testing in your specific use case.
 
 ## Overview
 
@@ -23,14 +23,10 @@ universal-preprocessor provides a simple yet powerful way to conditionally inclu
 
 ## Installation
 
-### NPM (Recommended)
+### NPM (Recommended in CLI)
+You can run the preprocessor directly using `npx` — no need to install globally:
 ```bash
-npm install -g universal-preprocessor
-```
-
-### Local Installation
-```bash
-npm install universal-preprocessor
+npx @aliflux/universal-preprocessor ./src ./dist FEATURE_AUTH
 ```
 
 ### Manual Installation
@@ -43,18 +39,25 @@ npm link
 
 ## Quick Start
 
-### Command Line Interface
+### Command Line Interface If Manually Installed And Linked
 
 Process an entire project directory:
 
 ```bash
-preprocessor src dist FEATURE_AUTH,FEATURE_CHAT,DEBUG_MODE
+preprocessor ./src ./dist FEATURE_AUTH,FEATURE_CHAT,DEBUG_MODE
 ```
 
 **Syntax:**
 ```bash
 preprocessor <source_directory> <output_directory> <feature1,feature2,...>
 ```
+
+### Command Line Interface Directly With `npx`
+```bash
+npx @aliflux/universal-preprocessor ./src ./dist FEATURE_AUTH,FEATURE_CHAT,DEBUG_MODE
+```
+
+
 ### Ignoring Files and Folders (Optional)
 
 You can ignore specific files and folders from being processed or copied to the output directory by using a `.preprocessorignore` file.
@@ -283,9 +286,9 @@ Add to your `package.json`:
 ```json
 {
   "scripts": {
-    "build:dev": "preprocessor src dist DEVELOPMENT,DEBUG_MODE",
-    "build:prod": "preprocessor src dist PRODUCTION,ANALYTICS",
-    "build:premium": "preprocessor src dist PRODUCTION,PREMIUM_FEATURES,ANALYTICS"
+    "build:dev": "npx @aliflux/universal-preprocessor ./src ./dist DEVELOPMENT,DEBUG_MODE",
+    "build:prod": "npx @aliflux/universal-preprocessor ./src ./dist PRODUCTION,ANALYTICS",
+    "build:premium": "npx @aliflux/universal-preprocessor ./src ./dist PRODUCTION,PREMIUM_FEATURES,ANALYTICS"
   }
 }
 ```
@@ -316,11 +319,8 @@ jobs:
       - name: Install dependencies
         run: npm install
       
-      - name: Install preprocessor
-        run: npm install -g universal-preprocessor
-      
       - name: Build ${{ matrix.variant.name }}
-        run: preprocessor src dist-${{ matrix.variant.name }} ${{ matrix.variant.features }}
+        run: npx @aliflux/universal-preprocessor ./src ./dist-${{ matrix.variant.name }} ${{ matrix.variant.features }}
       
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
@@ -355,27 +355,27 @@ The following directories are automatically skipped:
 ### Multi-Tenant Applications
 Create different builds for different clients:
 ```bash
-preprocessor src dist-client-a CLIENT_A_FEATURES,BASIC_FEATURES
-preprocessor src dist-client-b CLIENT_B_FEATURES,PREMIUM_FEATURES
+npx @aliflux/universal-preprocessor ./src ./dist-client-a CLIENT_A_FEATURES,BASIC_FEATURES
+npx @aliflux/universal-preprocessor ./src ./dist-client-b CLIENT_B_FEATURES,PREMIUM_FEATURES
 ```
 
 ### Environment-Specific Builds
 ```bash
 # Development build with debugging
-preprocessor src dist-dev DEVELOPMENT,DEBUG_MODE,MOCK_DATA
+npx @aliflux/universal-preprocessor ./src ./dist-dev DEVELOPMENT,DEBUG_MODE,MOCK_DATA
 
 # Production build
-preprocessor src dist-prod PRODUCTION,ANALYTICS,OPTIMIZATIONS
+npx @aliflux/universal-preprocessor ./src ./dist-prod PRODUCTION,ANALYTICS,OPTIMIZATIONS
 ```
 
 ### Feature Rollouts
 Gradually enable features across different builds:
 ```bash
 # Beta release
-preprocessor src dist-beta STABLE_FEATURES,BETA_FEATURES
+npx @aliflux/universal-preprocessor ./src ./dist-beta STABLE_FEATURES,BETA_FEATURES
 
 # Stable release  
-preprocessor src dist-stable STABLE_FEATURES
+npx @aliflux/universal-preprocessor ./src ./dist-stable STABLE_FEATURES
 ```
 
 ## Contributing
