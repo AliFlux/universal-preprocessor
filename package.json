@@ -1,7 +1,7 @@
 {
     "author": "Visor Dynamics",
     "name": "@aliflux/universal-preprocessor",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "Simple JavaScript feature flag preprocessor with #if/#else/#endif support",
     "main": "src/preprocessor.js",
     "type": "module",
@@ -17,7 +17,7 @@
         "build-tools"
     ],
     "bin": {
-        "preprocessor": "./bin/index.js"
+        "preprocessor": "bin/index.js"
     },
     "license": "MIT",
     "devDependencies": {},

@@ -34,7 +34,7 @@ const enabled = featureArg
     ? featureArg.split(",").map(f => f.trim()).filter(Boolean)
     : [];
 
-const codeExtensions = [".js", ".ts", ".jsx", ".py", ".txt", ".html", ".css", ".go"];
+const codeExtensions = [".js", ".ts", ".jsx", ".tsx", ".py", ".txt", ".html", ".css", ".go"];
 const fullSrc = path.resolve(process.cwd(), srcArg);
 const fullDist = path.resolve(process.cwd(), distArg);
 
